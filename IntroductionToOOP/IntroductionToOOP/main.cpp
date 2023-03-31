@@ -5,6 +5,8 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+#define delimiter "\n-------------------------------------------\n"
+
 class Point
 {
 	/*
@@ -48,13 +50,30 @@ public:
 		this->y = y;
 		cout << "Constructor:\t" << this << endl;
 	}
+	//Deep copy - побитовое копирование
+	//Shallow copy - поверхностное копирование
+	Point(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyConstructor:" << this << endl;
+	}
 	~Point()
 	{
 		cout << "Destructor:\t" << this << endl;
 	}
 
+	//				Operators:
+	Point& operator=(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+
 	//				Methods:
-	double distance(Point other)
+	double distance(const Point& other)
 	{
 		//this  - эта точка
 		//other - другая точка (указанная точка)
@@ -69,7 +88,7 @@ public:
 	}
 };
 
-double distance(Point A, Point B)
+double distance(const Point& A, const Point& B)
 {
 	double x_distance = A.get_x() - B.get_x();
 	double y_distance = A.get_y() - B.get_y();
@@ -78,6 +97,8 @@ double distance(Point A, Point B)
 
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
+//#define CONSTRUCTORS_CHECK
+//#define ASSIGNMENT_OPERATOR
 
 void main()
 {
@@ -110,13 +131,18 @@ void main()
 	B.set_y(8);
 	//cout << B.get_x() << "\t" << B.get_y() << endl;
 	B.print();
-
+	cout << delimiter << endl;
 	cout << "Расстояние от точки A до точки B: " << A.distance(B) << endl;
+	cout << delimiter << endl;
 	cout << "Расстояние от точки B до точки A: " << B.distance(A) << endl;
+	cout << delimiter << endl;
 	cout << "Расстояние между точками A и B:   " << distance(A, B) << endl;
+	cout << delimiter << endl;
 	cout << "Расстояние между точками B и A:   " << distance(B, A) << endl;
+	cout << delimiter << endl;
 #endif // DISTANCE_CHECK
 
+#ifdef CONSTRUCTORS_CHECK
 	Point A;	//Default constructor
 	A.print();
 
@@ -125,6 +151,31 @@ void main()
 
 	Point C(2, 3);
 	C.print();
+
+	Point D = C;	//Copy constructor
+	D.print();
+
+	
+	Point E;
+	E = D;			//Assignment operator
+	E.print();
+
+#endif // CONSTRUCTORS_CHECK
+
+#ifdef ASSIGNMENT_OPERATOR
+	int a, b, c;
+	a = b = c = 0;
+	cout << a << "\t" << b << "\t" << c << endl;
+
+	Point A, B, C;
+	cout << delimiter << endl;
+	A = B = C = Point(2, 3);
+	cout << delimiter << endl;
+	A.print();
+	B.print();
+	C.print();
+#endif // ASSIGNMENT_OPERATOR
+
 }
 
 /*
@@ -167,5 +218,26 @@ void main()
 2. ~Destructor - это метод, который уничтожает отбъект по завершении его времени жизни;
 
 3. Assignment operator;
+------------------------------------------------
+*/
+
+/*
+------------------------------------------------
+1. Перегрузить можно только существующие операторы.
+   Например:
+	+  - перегружается;
+	++ - перегружается;
+	*  - перегружается;
+	** - НЕ перегружается;
+2. НЕ все существующие операторы можно перегрузить,
+   не перегружаются:
+	?: - Conditional ternary operator;
+	:: - Оператор разрешения видимости (Scope operator);
+	.  - Оператор прямого доступа (Point operator);
+	.* - Pointer to member selection;
+	#
+	##
+3. Перегркуженные операторы сохраняют приоритет;
+4. Переопределить поведение операторов над встроенными типами невозможно;
 ------------------------------------------------
 */
