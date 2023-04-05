@@ -159,6 +159,43 @@ public:
 	}
 };
 
+bool operator==(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator();
+	/*if (left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator())
+		return true;
+	else
+		return false;*/
+}
+bool operator!=(const Fraction& left, const Fraction& right)
+{
+	return !(left == right);
+}
+bool operator>(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator()*right.get_denominator() > right.get_numerator()*left.get_denominator();
+}
+bool operator<(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return left.get_numerator()*right.get_denominator() < right.get_numerator()*left.get_denominator();
+}
+bool operator>=(const Fraction& left, const Fraction& right)
+{
+	return !(left < right);
+	//return left > right || left == right;
+}
+bool operator<=(const Fraction& left, const Fraction& right)
+{
+	return !(left > right);
+	//return left < right || left == right;
+}
+
 Fraction operator*(Fraction left, Fraction right)
 {
 	left.to_improper();
@@ -177,7 +214,7 @@ Fraction operator*(Fraction left, Fraction right)
 	(
 		left.get_numerator()*right.get_numerator(),
 		left.get_denominator()*right.get_denominator()
-	).to_proper().set_minus(left.get_minus()!=right.get_minus());
+	).to_proper().set_minus(left.get_minus() != right.get_minus());
 }
 Fraction operator/(const Fraction& left, const Fraction& right)
 {
@@ -192,19 +229,40 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 }
 Fraction operator+(Fraction left, Fraction right)
 {
-
-	return Fraction();
-}
-Fraction operator-(Fraction left, Fraction right)
-{
 	left.to_improper();
+	right.to_improper();
+	Fraction sum;
+	if (left.get_minus() == right.get_minus())
+	{
+		sum.set_numerator(left.get_numerator()*right.get_denominator() + right.get_numerator()*left.get_denominator());
+		sum.set_denominator(left.get_denominator()*right.get_denominator());
+	}
+	else
+	{
+		sum.set_numerator(left.get_numerator()*right.get_denominator() - right.get_numerator()*left.get_denominator());
+		sum.set_denominator(left.get_denominator()*right.get_denominator());
+		if (left < right)sum.set_minus(true);
+	}
+	sum.detect_minus();
+	sum.to_proper();
+	return sum;
+}
+Fraction operator-(Fraction obj)
+{
+	return obj.set_minus(true);
+}
+Fraction operator-(const Fraction& left, const Fraction& right)
+{
+	return left + (-right);
+	/*left.to_improper();
 	right.to_improper();
 	return Fraction
 	(
 		left.get_numerator()*right.get_denominator() - right.get_numerator()*left.get_denominator(),
 		left.get_denominator()*right.get_denominator()
-	).to_proper().detect_minus();
+	).to_proper().detect_minus();*/
 }
+
 
 //#define CONSTRUCTORS_CHECK
 
@@ -232,7 +290,7 @@ void main()
 	A.print();
 #endif // CONSTRUCTORS_CHECK
 
-	Fraction A(2, 3, 4);
+	Fraction A(-2, 3, 4);
 	A.print();
 
 	Fraction B(3, 4, 5);
