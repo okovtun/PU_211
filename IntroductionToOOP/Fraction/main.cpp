@@ -3,10 +3,15 @@ using namespace std;
 
 class Fraction
 {
+	bool minus;
 	int integer;	//целая часть
 	int numerator;	//числитель
 	int denominator;//знаменатель
 public:
+	bool get_minus()
+	{
+		return minus;
+	}
 	int get_integer()const
 	{
 		return integer;
@@ -18,6 +23,11 @@ public:
 	int get_denominator()const
 	{
 		return denominator;
+	}
+	Fraction& set_minus(bool minus)
+	{
+		this->minus = minus;
+		return *this;
 	}
 	void set_integer(int integer)
 	{
@@ -36,34 +46,43 @@ public:
 	//				Constructors:
 	Fraction()
 	{
+		this->minus = false;
 		this->integer = 0;
 		this->numerator = 0;
 		this->denominator = 1;
+		detect_minus();
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
 	Fraction(int integer)
 	{
+		this->minus = false;
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
+		detect_minus();
 		cout << "1ArgConstructor:\t" << this << endl;
 	}
 	Fraction(int numerator, int denominator)
 	{
+		this->minus = false;
 		this->integer = 0;
 		this->numerator = numerator;
 		set_denominator(denominator);
+		detect_minus();
 		cout << "Constructor:\t\t" << this << endl;
 	}
 	Fraction(int integer, int numerator, int denominator)
 	{
+		this->minus = false;
 		this->integer = integer;
 		this->numerator = numerator;
 		this->set_denominator(denominator);
+		detect_minus();
 		cout << "Constructor:\t\t" << this << endl;
 	}
 	Fraction(const Fraction& other)
 	{
+		this->minus = other.minus;
 		this->integer = other.integer;
 		this->numerator = other.numerator;
 		this->denominator = other.denominator;
@@ -77,6 +96,7 @@ public:
 	//				Operator:
 	Fraction& operator=(const Fraction& other)
 	{
+		this->minus = other.minus;
 		this->integer = other.integer;
 		this->numerator = other.numerator;
 		this->denominator = other.denominator;
@@ -110,8 +130,23 @@ public:
 		inverted.numerator ^= inverted.denominator;
 		return inverted;
 	}
+	Fraction& detect_minus()
+	{
+		if (integer < 0)
+		{
+			integer = -integer;
+			minus = true;
+		}
+		if (numerator < 0)
+		{
+			numerator = -numerator;
+			minus = true;
+		}
+		return *this;
+	}
 	void print()const
 	{
+		if (minus)cout << "-";
 		if (integer)cout << integer;
 		if (numerator)
 		{
@@ -133,7 +168,7 @@ Fraction operator*(Fraction left, Fraction right)
 	product.set_denominator(left.get_denominator()*right.get_denominator());*/
 	/*Fraction product
 	(
-		left.get_numerator()*right.get_numerator(), 
+		left.get_numerator()*right.get_numerator(),
 		left.get_denominator()*right.get_denominator()
 	);
 	product.to_proper();
@@ -142,7 +177,7 @@ Fraction operator*(Fraction left, Fraction right)
 	(
 		left.get_numerator()*right.get_numerator(),
 		left.get_denominator()*right.get_denominator()
-	).to_proper();
+	).to_proper().set_minus(left.get_minus()!=right.get_minus());
 }
 Fraction operator/(const Fraction& left, const Fraction& right)
 {
@@ -153,7 +188,22 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 		left.get_numerator()*right.get_denominator(),
 		right.get_numerator()*left.get_denominator()
 	).to_proper();*/
-	return left * right.inverted();
+	return left * right.inverted().detect_minus();
+}
+Fraction operator+(Fraction left, Fraction right)
+{
+
+	return Fraction();
+}
+Fraction operator-(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		left.get_numerator()*right.get_denominator() - right.get_numerator()*left.get_denominator(),
+		left.get_denominator()*right.get_denominator()
+	).to_proper().detect_minus();
 }
 
 //#define CONSTRUCTORS_CHECK
@@ -200,4 +250,6 @@ void main()
 
 	A.print();
 	B.print();
+
+	(A - B).print();
 }
