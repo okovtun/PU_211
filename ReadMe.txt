@@ -2,6 +2,10 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+1. Литералы: https://legacy.cplusplus.com/doc/tutorial/operators/
+2.
+
+DONE:
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 1. !!!!!!!!!!!!!!!!			Выучить теорию			!!!!!!!!!!!!!!!!!!!!
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
