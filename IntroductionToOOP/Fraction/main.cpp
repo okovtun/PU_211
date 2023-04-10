@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+п»ї#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 using namespace std;
 using std::cin;
@@ -11,9 +11,9 @@ Fraction operator/(const Fraction& left, const Fraction& right);
 
 class Fraction
 {
-	int integer;	//целая часть
-	int numerator;	//числитель
-	int denominator;//знаменатель
+	int integer;	//С†РµР»Р°СЏ С‡Р°СЃС‚СЊ
+	int numerator;	//С‡РёСЃР»РёС‚РµР»СЊ
+	int denominator;//Р·РЅР°РјРµРЅР°С‚РµР»СЊ
 public:
 	int get_integer()const
 	{
@@ -49,12 +49,23 @@ public:
 		this->denominator = 1;
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	Fraction(int integer)
+	explicit Fraction(int integer)
 	{
 		this->integer = integer;
 		this->numerator = 0;
 		this->denominator = 1;
 		cout << "1ArgConstructor:\t" << this << endl;
+	}
+	Fraction(double decimal)
+	{
+		//decimal - РґРµСЃСЏС‚РёС‡РЅР°СЏ РґСЂРѕР±СЊ
+		decimal += 1e-10;
+		integer = decimal;	//РїРѕР»СѓС‡Р°РµРј С‡РµР»СѓСЋ С‡Р°СЃС‚СЊ РґСЂРѕР±РЅРѕРіРѕ С‡РёСЃР»Р°
+		decimal -= integer;	//СѓР±РёСЂР°РµРј С†РµР»СѓСЋ С‡Р°СЃС‚СЊ РёР· РґСЂРѕР±РЅРѕРіРѕ С‡РёСЃР»Р°
+		denominator = 1e+9;
+		numerator = decimal * denominator;
+		reduce();
+		cout << "1DArgConstructor:\t" << this << endl;
 	}
 	Fraction(int numerator, int denominator)
 	{
@@ -116,6 +127,16 @@ public:
 		return old;
 	}
 
+	//				Type-cast operators:
+	explicit operator int()
+	{
+		return integer;
+	}
+	operator double()
+	{
+		return integer + (double)numerator / denominator;
+	}
+
 	//				Methods:
 	Fraction& to_improper()
 	{
@@ -131,7 +152,7 @@ public:
 	}
 	Fraction inverted()const
 	{
-		//Метод inverted() обращает дробь:
+		//РњРµС‚РѕРґ inverted() РѕР±СЂР°С‰Р°РµС‚ РґСЂРѕР±СЊ:
 		Fraction inverted = *this;
 		inverted.to_improper();
 		//https://legacy.cplusplus.com/doc/tutorial/operators/#:~:text=Bitwise%20operators%20(%20%26%2C%20%7C%2C%20%5E%2C%20~%2C%20%3C%3C%2C%20%3E%3E%20)
@@ -259,18 +280,18 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 	char buffer[SIZE] = {};
 	//is >> buffer;
 	is.getline(buffer, SIZE);
-	int number[3] = {};	//здесь будут хранится числа, введенные с клавиатуры
-	int n = 0;	//счетчик чисел
+	int number[3] = {};	//Р·РґРµСЃСЊ Р±СѓРґСѓС‚ С…СЂР°РЅРёС‚СЃСЏ С‡РёСЃР»Р°, РІРІРµРґРµРЅРЅС‹Рµ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
+	int n = 0;	//СЃС‡РµС‚С‡РёРє С‡РёСЃРµР»
 	const char delimiters[] = "( /)";
 	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
 	{
-		//указатель 'pch' хранит адрес начала токена
-		//в функцию strtok() только первый раз передается делимая строка,
-		//при всех последующих вызовах, на место делимой строки нужно передавать 'NULL',
-		//это показывает функции strtok() что она работает с ранее переданной строкой.
-		//Если делимую строку передать еще раз, то strtok() начнет обрабатывать ее сначала
+		//СѓРєР°Р·Р°С‚РµР»СЊ 'pch' С…СЂР°РЅРёС‚ Р°РґСЂРµСЃ РЅР°С‡Р°Р»Р° С‚РѕРєРµРЅР°
+		//РІ С„СѓРЅРєС†РёСЋ strtok() С‚РѕР»СЊРєРѕ РїРµСЂРІС‹Р№ СЂР°Р· РїРµСЂРµРґР°РµС‚СЃСЏ РґРµР»РёРјР°СЏ СЃС‚СЂРѕРєР°,
+		//РїСЂРё РІСЃРµС… РїРѕСЃР»РµРґСѓСЋС‰РёС… РІС‹Р·РѕРІР°С…, РЅР° РјРµСЃС‚Рѕ РґРµР»РёРјРѕР№ СЃС‚СЂРѕРєРё РЅСѓР¶РЅРѕ РїРµСЂРµРґР°РІР°С‚СЊ 'NULL',
+		//СЌС‚Рѕ РїРѕРєР°Р·С‹РІР°РµС‚ С„СѓРЅРєС†РёРё strtok() С‡С‚Рѕ РѕРЅР° СЂР°Р±РѕС‚Р°РµС‚ СЃ СЂР°РЅРµРµ РїРµСЂРµРґР°РЅРЅРѕР№ СЃС‚СЂРѕРєРѕР№.
+		//Р•СЃР»Рё РґРµР»РёРјСѓСЋ СЃС‚СЂРѕРєСѓ РїРµСЂРµРґР°С‚СЊ РµС‰Рµ СЂР°Р·, С‚Рѕ strtok() РЅР°С‡РЅРµС‚ РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ РµРµ СЃРЅР°С‡Р°Р»Р°
 		number[n++] = atoi(pch);
-		//atoi() - ASCII-string To Integer (эта функция преобразует C-строку в значение типа 'int')
+		//atoi() - ASCII-string To Integer (СЌС‚Р° С„СѓРЅРєС†РёСЏ РїСЂРµРѕР±СЂР°Р·СѓРµС‚ C-СЃС‚СЂРѕРєСѓ РІ Р·РЅР°С‡РµРЅРёРµ С‚РёРїР° 'int')
 	}
 	//for (int i = 0; i < n; i++)cout << number[i] << "\t"; cout << endl;
 	obj = Fraction();
@@ -285,6 +306,11 @@ std::istream& operator>>(std::istream& is, Fraction& obj)
 
 //#define CONSTRUCTORS_CHECK
 //#define ARITHMETICAL_OPERATORS_CHECK
+//#define ISTREAM_OPERATOR_CHECK
+//#define TYPE_CONVERSIONS_BASICS
+//#define CONVERSION_FROM_OTHER_TO_CLASS
+//#define CONVERSION_FROM_CLASS_TO_OTHER
+#define HOME_WORK
 
 void main()
 {
@@ -346,9 +372,10 @@ void main()
 	}
 #endif // ARITHMETICAL_OPERATORS_CHECK
 
+#ifdef ISTREAM_OPERATOR_CHECK
 	//cout << (Fraction(1, 2) >= Fraction(5, 11)) << endl;
 	Fraction A(123, 32, 45);
-	cout << "Введите простую дробь: "; cin >> A;
+	cout << "Р’РІРµРґРёС‚Рµ РїСЂРѕСЃС‚СѓСЋ РґСЂРѕР±СЊ: "; cin >> A;
 	/*
 	------------------
 	5;
@@ -358,4 +385,51 @@ void main()
 	------------------
 	*/
 	cout << A << endl;
+#endif // ISTREAM_OPERATOR_CHECK
+
+#ifdef TYPE_CONVERSIONS_BASICS
+	//(type)value;	//C-like notation
+//type(value);	//Functional notation
+
+	int a = 2;		//No conversion
+	double b = 3;	//Conversion from less to more
+	int c = b;		//Conversion from more to less without data loss
+	int d = 2.5;	//Conversion from more to less with data loss  
+#endif // TYPE_CONVERSIONS_BASICS
+
+	/*
+	--------------------------
+	1. From other to class:
+		Single-Argument constructor;
+		Assignment operator;
+
+	2. From class to other;
+	--------------------------
+	*/
+
+#ifdef CONVERSION_FROM_OTHER_TO_CLASS
+	Fraction A = (Fraction)5;		//Conversion from other to Class produced by Single-Argument constructor
+	cout << A << endl;
+	Fraction B;		//Default constructor
+	B = Fraction(8);			//Conversion from other to Class produced by Assignment operator
+	cout << B << endl;
+#endif // CONVERSION_FROM_OTHER_TO_CLASS
+
+#ifdef CONVERSION_FROM_CLASS_TO_OTHER
+	Fraction A(2, 3, 4);
+	cout << A << endl;
+
+	int a = (int)A;
+	cout << a << endl;
+
+	double b = A;
+	cout << b << endl;
+#endif // CONVERSION_FROM_CLASS_TO_OTHER
+
+#ifdef HOME_WORK
+	Fraction A = 22.56;
+	cout << A << endl;
+#endif // HOME_WORK
+
+
 }
