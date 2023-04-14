@@ -3,7 +3,16 @@ https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVk
 
 TODO:
 1. Литералы: https://legacy.cplusplus.com/doc/tutorial/operators/
-2.
+2. Проверочный код в секции HOME_WORK_1 должен заработать:
+	https://github.com/okovtun/PU_211/blob/dca9ce21d43ac9b472fe4f1e2e3b6662aa055055/IntroductionToOOP/String/main.cpp#L56
+3. Для класса String перегрузить и проветрить оператор ввода с клавиатуры;
+	--------------------------------------------------
+4. В Solution IntroductionToOOP добавить проект TheMatrix, и в этом проекте реализовать класс Matrix,
+   описывающий матрицу. 
+	В классе должны быть все необходимые методы и операторы;
+	Метод ??? determinant(???), который возвращает определить матрицы;
+	Метод ??? inverted(???), который возвращает обращенную матрицу;
+
 
 DONE:
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
