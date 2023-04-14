@@ -2,6 +2,10 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+Классы String и Fraction разделить на файлы в соответствующих ветках.
+В Классе String перед разделением сделать делегирование и инициализацию в заголовке.
+
+DONE:
 1. Литералы: https://legacy.cplusplus.com/doc/tutorial/operators/
 2. Проверочный код в секции HOME_WORK_1 должен заработать:
 	https://github.com/okovtun/PU_211/blob/dca9ce21d43ac9b472fe4f1e2e3b6662aa055055/IntroductionToOOP/String/main.cpp#L56
