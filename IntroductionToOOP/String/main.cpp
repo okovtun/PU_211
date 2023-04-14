@@ -25,32 +25,32 @@ public:
 	}
 
 	//			Constructors:
-	explicit String(int size = 256)
+	explicit String(int size = 256) :size(size), str(new char[size] {})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << "Default1ArgConstruct:\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str) :size(strlen(str) + 1), str(new char[size] {})
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		//this->size = strlen(str) + 1;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t\t" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other) :size(other.size), str(new char[size] {})
 	{
 		//Deep copy (Побитовое копирование):
-		this->size = other.size;
-		this->str = new char[size] {};
+		//this->size = other.size;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
 	}
-	String(String&& other)
+	String(String&& other):size(other.size),str(other.str)
 	{
 		//Shallow copy (Поверхностное копирование):
-		this->size = other.size;
-		this->str = other.str;
+		//this->size = other.size;
+		//this->str = other.str;
 		other.size = 0;
 		other.str = nullptr;
 		cout << "MoveConstructor:\t" << this << endl;
@@ -145,7 +145,7 @@ std::istream& operator>>(std::istream& is, String& obj)
 }
 
 //#define CONSTRUCTORS_CHECK
-//#define HOME_WORK_1
+#define HOME_WORK_1
 //#define ISTREAM_OPERATOR
 //#define CONSTRUCTORS_CHECK_2
 
@@ -183,6 +183,9 @@ void main()
 	cout << delimiter << endl;
 	cout << str1 << endl;
 	cout << delimiter << endl;
+
+	String str3 = str1;
+	str3.print();
 #endif // HOME_WORK_1
 
 	//Move-методы:
