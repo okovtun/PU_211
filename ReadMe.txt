@@ -2,6 +2,9 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+В проект 'Academy' добавить классы Teacher и Graduate (Дипломник).
+
+DONE:
 Классы String и Fraction разделить на файлы в соответствующих ветках.
 В Классе String перед разделением сделать делегирование и инициализацию в заголовке.
 
