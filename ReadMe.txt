@@ -2,6 +2,11 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+1. Сохранить группу в файл;
+2. Загрузить группу из файла;
+https://legacy.cplusplus.com/doc/tutorial/files/
+
+DONE:
 В проект 'Academy' добавить классы Teacher и Graduate (Дипломник).
 
 DONE:
