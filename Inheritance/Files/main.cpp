@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include<iostream>
 #include<fstream>
 using namespace std;
@@ -53,5 +54,43 @@ void main()
 	}
 #endif // READ_FROM_FILE
 
+	const int NUMBER_SIZE = 20;
+	char room_number[NUMBER_SIZE];
+	char sz_source_filename[FILENAME_MAX] = {};
+	char sz_ready_filename[FILENAME_MAX] = {};
+	
+	cout << "¬ведите номер аудтиории: "; cin >> room_number;
+	strcat(sz_source_filename, room_number);
+	strcat(sz_ready_filename, room_number);
 
+	strcat(sz_source_filename, " RAW.txt");
+	strcat(sz_ready_filename, " ready.txt");
+
+	const int IP_BUFFER_SIZE = 16;
+	const int MAC_BUFFER_SIZE = 18;
+	char sz_ip_buffer[IP_BUFFER_SIZE] = {};
+	char sz_mac_buffer[MAC_BUFFER_SIZE] = {};
+
+	std::ofstream fout(sz_ready_filename);
+	std::ifstream fin(sz_source_filename);
+	if (fin.is_open())
+	{
+		while (!fin.eof())
+		{
+			//TODO: exchange
+			fin >> sz_ip_buffer >> sz_mac_buffer;
+			fout << sz_mac_buffer << "\t" << sz_ip_buffer << endl;
+			cout << sz_mac_buffer << "\t" << sz_ip_buffer << endl;
+		}
+		fin.close();
+	}
+	else
+	{
+		std::cerr << "Error: file not found" << endl;
+	}
+	fout.close();
+
+	char sz_command[FILENAME_MAX] = "notepad ";
+	strcat(sz_command, sz_ready_filename);
+	system(sz_command);
 }

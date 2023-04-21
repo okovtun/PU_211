@@ -2,6 +2,8 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+0. Из фалйла "201 RAW.txt" создать файл формата 201.dhcpd:
+	https://github.com/okovtun/PU_211/blob/master/Inheritance/Files/201.dhcpd
 1. Сохранить группу в файл;
 2. Загрузить группу из файла;
 https://legacy.cplusplus.com/doc/tutorial/files/
