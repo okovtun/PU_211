@@ -57,30 +57,52 @@ void main()
 	const int NUMBER_SIZE = 20;
 	char room_number[NUMBER_SIZE];
 	char sz_source_filename[FILENAME_MAX] = {};
-	char sz_ready_filename[FILENAME_MAX] = {};
-	
+	char sz_wal_filename[FILENAME_MAX] = {};
+	char sz_dhcpd_filename[FILENAME_MAX] = {};
+
 	cout << "¬ведите номер аудтиории: "; cin >> room_number;
 	strcat(sz_source_filename, room_number);
-	strcat(sz_ready_filename, room_number);
+	strcat(sz_wal_filename, room_number);
+	strcat(sz_dhcpd_filename, room_number);
 
 	strcat(sz_source_filename, " RAW.txt");
-	strcat(sz_ready_filename, " ready.txt");
+	strcat(sz_wal_filename, " ready.txt");
+	strcat(sz_dhcpd_filename, ".dhcpd");
 
 	const int IP_BUFFER_SIZE = 16;
 	const int MAC_BUFFER_SIZE = 18;
 	char sz_ip_buffer[IP_BUFFER_SIZE] = {};
 	char sz_mac_buffer[MAC_BUFFER_SIZE] = {};
 
-	std::ofstream fout(sz_ready_filename);
+	std::ofstream fout_wal(sz_wal_filename);
+	std::ofstream fout_dhcpd(sz_dhcpd_filename);
 	std::ifstream fin(sz_source_filename);
 	if (fin.is_open())
 	{
-		while (!fin.eof())
+		for (int i = 1; !fin.eof(); i++)
 		{
 			//TODO: exchange
 			fin >> sz_ip_buffer >> sz_mac_buffer;
-			fout << sz_mac_buffer << "\t" << sz_ip_buffer << endl;
-			cout << sz_mac_buffer << "\t" << sz_ip_buffer << endl;
+			if (strlen(sz_ip_buffer) == 0 && strlen(sz_mac_buffer) == 0)continue;
+			fout_wal << sz_mac_buffer << "\t" << sz_ip_buffer << endl;
+			//cout << sz_mac_buffer << "\t" << sz_ip_buffer << endl;
+			////////////////////////////////////////////////////////////
+			for (int i = 0; sz_mac_buffer[i]; i++)if (sz_mac_buffer[i] == '-')sz_mac_buffer[i] = ':';
+			cout << "host " << room_number << "-" << i << ":\n";
+			cout << "{\n";
+			cout << "\thardware ethernet\t" << sz_mac_buffer << ";\n";
+			cout << "\tfixed-address\t\t" << sz_ip_buffer << ";\n";
+			cout << "}\n";
+			cout << endl;
+
+			fout_dhcpd << "host " << room_number << "-" << i << ":\n";
+			fout_dhcpd << "{\n";
+			fout_dhcpd << "\thardware ethernet\t" << sz_mac_buffer << ";\n";
+			fout_dhcpd << "\tfixed-address\t\t" << sz_ip_buffer << ";\n";
+			fout_dhcpd << "}\n";
+			fout_dhcpd << endl;
+
+
 		}
 		fin.close();
 	}
@@ -88,9 +110,15 @@ void main()
 	{
 		std::cerr << "Error: file not found" << endl;
 	}
-	fout.close();
+	fout_dhcpd.close();
+	fout_wal.close();
 
-	char sz_command[FILENAME_MAX] = "notepad ";
-	strcat(sz_command, sz_ready_filename);
-	system(sz_command);
+	char sz_command_wal[FILENAME_MAX] = "start notepad ";
+	char sz_command_dhcpd[FILENAME_MAX] = "start notepad ";
+
+	strcat(sz_command_wal, sz_wal_filename);
+	strcat(sz_command_dhcpd, sz_dhcpd_filename);
+
+	system(sz_command_wal);
+	system(sz_command_dhcpd);
 }
