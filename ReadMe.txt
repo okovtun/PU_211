@@ -2,6 +2,13 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+В Solution 'Inheritance' добавить проект 'AbstractGeometry', и в этом проекте
+реализовать иерархию геометрических фигур: квадрат, прямоугольник, круг, треугольник....
+Для каждой фигуры нужно вывести ее первичные свойства, например длина стороны квадрата, радиус круга....,
+и вторичные свойства площадь, периметр.
+Также каждую фигуру нужно нарисовать.
+
+TODO:
 0. Из фалйла "201 RAW.txt" создать файл формата 201.dhcpd:			DONE
 	https://github.com/okovtun/PU_211/blob/master/Inheritance/Files/201.dhcpd
 1. Сохранить группу в файл;		DONE
