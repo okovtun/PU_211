@@ -2,6 +2,10 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+¬ иерархию геометрических фигур добавить круг.
+https://learn.microsoft.com/en-us/windows/win32/gdi/about-ellipses
+
+DONE:
 ¬ Solution 'Inheritance' добавить проект 'AbstractGeometry', и в этом проекте
 реализовать иерархию геометрических фигур: квадрат, пр€моугольник, круг, треугольник....
 ƒл€ каждой фигуры нужно вывести ее первичные свойства, например длина стороны квадрата, радиус круга....,
