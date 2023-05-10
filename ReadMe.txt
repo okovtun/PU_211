@@ -2,6 +2,9 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+¬ иерархию геометрических фигур добавить иерархию треугольников;
+
+DONE:
 ¬ иерархию геометрических фигур добавить круг.
 https://learn.microsoft.com/en-us/windows/win32/gdi/about-ellipses
 
