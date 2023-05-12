@@ -271,6 +271,85 @@ namespace Geometry
 		}
 		~Circle() {}
 	};
+
+	class Triangle :public Shape
+	{
+	public:
+		Triangle(SHAPE_TAKE_PARAMETERS) :Shape(SHAPE_GIVE_PARAMETERS) {}
+		~Triangle() {}
+
+		virtual double get_height()const = 0;
+
+		void info()const
+		{
+			cout << "Высота треугольника: " << get_height() << endl;
+			Shape::info();
+		}
+	};
+
+	class EquilateralTriangle :public Triangle
+	{
+		double side;
+	public:
+		EquilateralTriangle(double side, SHAPE_TAKE_PARAMETERS) :Triangle(SHAPE_GIVE_PARAMETERS)
+		{
+			set_side(side);
+		}
+		~EquilateralTriangle() {}
+		void set_side(double side)
+		{
+			if (side < Limitations::MIN_SIZE)side = Limitations::MIN_SIZE;
+			if (side > Limitations::MAX_SIZE)side = Limitations::MAX_SIZE;
+			this->side = side;
+		}
+		double get_side()const
+		{
+			return side;
+		}
+		double get_height()const
+		{
+			return sqrt(pow(side, 2) - pow(side / 2, 2));
+		}
+		double get_area()const
+		{
+			return side * get_height() / 2;
+		}
+		double get_perimeter()const
+		{
+			return 3 * side;
+		}
+		void draw()const
+		{
+			HWND hwnd = GetConsoleWindow();
+			HDC hdc = GetDC(hwnd);
+
+			HPEN hPen = CreatePen(PS_SOLID, line_width, color);
+			HBRUSH hBrush = CreateSolidBrush(color);
+
+			SelectObject(hdc, hPen);
+			SelectObject(hdc, hBrush);
+
+			POINT vertex[] =
+			{
+				{start_x, start_y + side},			//vertex_1
+				{start_x + side, start_y + side},	//vertex_2
+				{start_x + side / 2, start_y + side - get_height()}	//vertex_3
+			};
+
+			::Polygon(hdc, vertex, 3);
+
+			DeleteObject(hBrush);
+			DeleteObject(hPen);
+
+			ReleaseDC(hwnd, hdc);
+		}
+		void info()const
+		{
+			cout << typeid(*this).name() << endl;
+			cout << "Длина стороны: " << side << endl;
+			Triangle::info();
+		}
+	};
 }
 
 void main()
@@ -295,4 +374,7 @@ void main()
 
 	Geometry::Circle circle(50, 1000, 500, 5, Geometry::Color::yellow);
 	circle.info();
+
+	Geometry::EquilateralTriangle t_eq(300, 700, 100, 25, Geometry::Color::green);
+	t_eq.info();
 }

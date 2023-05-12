@@ -49,6 +49,17 @@ public:
 	}
 };
 
+class GroundVehicle :public Vehicle{};
+
+class Car :public GroundVehicle
+{
+public:
+	void move()
+	{
+		cout << "Машина едит на 4х колесах" << endl;
+	}
+};
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -63,4 +74,8 @@ void main()
 	boeing.take_off();
 	boeing.move();
 	boeing.land();
+
+	//GroundVehicle car;
+	Car bmw;
+	bmw.move();
 }
