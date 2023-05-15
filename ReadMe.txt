@@ -2,6 +2,15 @@ https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
 TODO:
+1. ¬ класс ForwardList добавить следующие методы:
+	??? Erase(???)	//удал€ет элемент из списка по указанному индексу
+	Ќаписать деструктор таким образом, чтобы он очищал список перед удалением
+	CopyMethods;
+	MoveMethods;
+2. ќбеспечить создание списков следующим образом:
+	ForwardList list = { 3, 5, 8, 13, 21 };
+
+DONE:
 ¬ иерархию геометрических фигур добавить иерархию треугольников;
 
 DONE:
