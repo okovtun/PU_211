@@ -1,14 +1,27 @@
 https://github.com/okovtun/PU_211.git
 https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVkYRF
 
+Book:
+https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
+
 TODO:
 1. ¬ класс ForwardList добавить следующие методы:
 	??? Erase(???)	//удал€ет элемент из списка по указанному индексу
-	Ќаписать деструктор таким образом, чтобы он очищал список перед удалением
-	CopyMethods;
+	Ќаписать деструктор таким образом, чтобы он очищал список перед удалением	DONE
+	CopyMethods;	DONE
 	MoveMethods;
-2. ќбеспечить создание списков следующим образом:
-	ForwardList list = { 3, 5, 8, 13, 21 };
+2. ќптимизировать методы добавлени€ элементов, сократив добавление элемента до 1 строки кода;			DONE
+3. Ќаписать метод ??? reverse(???), который измен€ет пор€док следовани€ элементов на противоположный,	DONE
+   и оптимизировать производительность списка при помощи этого метода там, где это нужно;
+4. ќбеспечить создание списков следующим образом:
+	ForwardList list = { 3, 5, 8, 13, 21 };		DONE
+5. ƒл€ класса ForwardList перегрузить оператор '+', который выполн€ет конкатенацию двух списков:
+	ForwardList list1 = { 3, 5, 8, 13, 21 };
+	ForwardList list2 = { 34, 55, 89 };
+	ForwardList list3 = list1 + list2;
+	for(int i:list1)cout << i << tab; cout << endl;
+	for(int i:list2)cout << i << tab; cout << endl;
+	for(int i:list3)cout << i << tab; cout << endl;
 
 DONE:
 ¬ иерархию геометрических фигур добавить иерархию треугольников;
