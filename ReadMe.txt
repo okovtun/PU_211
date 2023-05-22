@@ -5,6 +5,17 @@ Book:
 https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
 
 TODO:
+¬ класс List добавить следующий методы:
+	void reverse_print();
+	void push_back(int Data);
+
+	void pop_front();
+	void pop_back();
+
+	void insert(int Data, int Index)
+	void erase(int Index);
+
+DONE:
 1. ¬ класс ForwardList добавить следующие методы:
 	??? Erase(???)	//удал€ет элемент из списка по указанному индексу
 	Ќаписать деструктор таким образом, чтобы он очищал список перед удалением	DONE
