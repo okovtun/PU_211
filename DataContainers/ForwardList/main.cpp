@@ -40,16 +40,26 @@ class Iterator
 public:
 	Iterator(Element* Temp) :Temp(Temp)
 	{
+#ifdef DEBUG
 		cout << "ItConstructor:\t" << this << endl;
+#endif // DEBUG
 	}
 	~Iterator()
 	{
+#ifdef DEBUG
 		cout << "ItDestructor:\t" << this << endl;
+#endif // DEBUG
 	}
 	Iterator& operator++()
 	{
 		Temp = Temp->pNext;
 		return *this;
+	}
+	Iterator operator++(int)
+	{
+		Iterator old = *this;
+		Temp = Temp->pNext;
+		return old;
 	}
 
 	bool operator==(const Iterator& other)const
@@ -74,11 +84,11 @@ class ForwardList
 	//Голова списа содержит адрес начального элемента.
 	unsigned int size;	//Количество элементов списка
 public:
-	Iterator begin()
+	Iterator begin()const
 	{
 		return Head;
 	}
-	Iterator end()
+	Iterator end()const
 	{
 		return nullptr;
 	}
@@ -87,11 +97,6 @@ public:
 		Head = nullptr;	//Когда список пуст, его Голова указывает на 0
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
-	}
-	ForwardList(const ForwardList& other) :ForwardList()
-	{
-		*this = other;	//Повторно используем код оператора =
-		cout << "CopyConstructor:" << this << endl;
 	}
 	ForwardList(const initializer_list<int>& il) :ForwardList()
 	{
@@ -102,6 +107,16 @@ public:
 		{
 			push_back(*it);
 		}
+	}
+	ForwardList(const ForwardList& other) :ForwardList()
+	{
+		*this = other;	//Повторно используем код оператора =
+		cout << "CopyConstructor:" << this << endl;
+	}
+	ForwardList(ForwardList&& other) :ForwardList()
+	{
+		*this = std::move(other);	//Встроенная функция std::move() принудительно вызывает MoveAssignment для своего параметра
+		cout << "MoveConstructor:" << this << endl;
 	}
 	~ForwardList()
 	{
@@ -120,9 +135,22 @@ public:
 			push_back(Temp->Data);
 			Temp = Temp->pNext;
 		}*/
+		//Deep copy:
 		for (Element* Temp = other.Head; Temp; Temp = Temp->pNext)push_front(Temp->Data);
 		reverse();
 		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+	ForwardList& operator=(ForwardList&& other)
+	{
+		if (this == &other)return *this;
+		while (Head)pop_front();
+		//Shallow copy:
+		this->Head = other.Head;
+		this->size = other.size;
+		other.Head = nullptr;
+		other.size = 0;
+		cout << "MoveAssignment:\t" << this << endl;
 		return *this;
 	}
 
@@ -224,10 +252,19 @@ public:
 	}
 };
 
+ForwardList operator+(const ForwardList& left, const ForwardList& right)
+{
+	ForwardList cat = left;
+	for (Iterator it = right.begin(); it != right.end(); ++it)
+		cat.push_back(*it);
+	return cat;
+}
+
 //#define BASE_CHECK
 //#define COPY_CHECK
 //#define PREFORMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
+//#define ITERATORS_CHECK
 
 void main()
 {
@@ -317,6 +354,7 @@ void main()
 	cout << endl;
 #endif // RANGE_BASED_FOR_ARRAY
 
+#ifdef ITERATORS_CHECK
 	ForwardList list = { 3, 5, 8, 13, 21 };
 	//list.print();
 	for (int i : list)
@@ -324,4 +362,16 @@ void main()
 		cout << i << tab;
 	}
 	cout << endl;
+#endif // ITERATORS_CHECK
+
+	ForwardList list1 = { 3,5,8,13,21 };
+	for (int i : list1)cout << i << tab; cout << endl;
+
+	ForwardList list2 = { 34,55,89 };
+	for (int i : list2)cout << i << tab; cout << endl;
+
+	//ForwardList list3 = list1 + list2;	//MoveConstructor
+	ForwardList list3;
+	list3 = list1 + list2;	//MoveAssignment
+	for (int i : list3)cout << i << tab; cout << endl;
 }
