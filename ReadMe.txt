@@ -5,15 +5,19 @@ Book:
 https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
 
 TODO:
+1. ѕроверочный код в секции HOME_WORK_1 должен заработать;
+2. ќбеспечить возможность вывода списка в обратном раправлении без использовани€ метода reverse_print();
+
+DONE:
 ¬ класс List добавить следующий методы:
-	void reverse_print();
-	void push_back(int Data);
+	void reverse_print();		DONE
+	void push_back(int Data);	DONE
 
-	void pop_front();
-	void pop_back();
+	void pop_front();			DONE
+	void pop_back();			DONE
 
-	void insert(int Data, int Index)
-	void erase(int Index);
+	void insert(int Data, int Index)	DONE
+	void erase(int Index);		DONE
 
 DONE:
 1. ¬ класс ForwardList добавить следующие методы:
