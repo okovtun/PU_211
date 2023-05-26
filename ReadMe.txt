@@ -5,6 +5,11 @@ Book:
 https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
 
 TODO:
+1. Реализовать иерархию Итераторов;
+2. Создать commit;
+3. *Создать ветку 'TemplatedList2', и в этой ветке шаблонизировать двусвязный список;
+
+DONE:
 1. Проверочный код в секции HOME_WORK_1 должен заработать;
 2. Обеспечить возможность вывода списка в обратном раправлении без использования метода reverse_print();
 
