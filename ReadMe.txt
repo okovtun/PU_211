@@ -4,7 +4,7 @@ https://www.youtube.com/watch?v=P-gfKtnSsGQ&list=PLeqyOOqxeiIOrmXJmnyCKSdcyAKXVk
 Book:
 https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
 
-TODO:
+DONE:
 Вынести за пределы класса методы Итераторов и методы элемента;
 
 DONE:
