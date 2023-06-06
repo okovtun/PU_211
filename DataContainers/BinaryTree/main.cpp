@@ -174,6 +174,14 @@ public:
 	}
 };
 
+void mesure(const char description[], const Tree& tree, int (*member_function)())
+{
+	clock_t t_start = clock();
+	cout << description << ":\t" << (*member_function)() << tab;
+	clock_t t_end = clock();
+	cout << double(t_end - t_start) / CLOCKS_PER_SEC << " секунд." << endl;
+}
+
 //#define BASE_CHECK
 //#define DEPTH_CHECK
 #define PREFORMANCE_CHECK
@@ -233,7 +241,7 @@ void main()
 	cout << "Дерево заполнено за " << double(t_end - t_start) / CLOCKS_PER_SEC << " сек.\n";
 	//tree.print();
 
-	t_start = clock();
+	/*t_start = clock();
 	cout << "Минимальное значение в дереве: " << tree.minValue() << tab;
 	t_end = clock();
 	cout << double(t_end - t_start) / CLOCKS_PER_SEC << " сек." << endl;
@@ -261,7 +269,9 @@ void main()
 	t_start = clock();
 	cout << "Глубина дерева: " << tree.depth() << tab;
 	t_end = clock();
-	cout << double(t_end - t_start) / CLOCKS_PER_SEC << " сек." << endl;
+	cout << double(t_end - t_start) / CLOCKS_PER_SEC << " сек." << endl;*/
+
+	mesure("Минимальное значение в дереве: ", tree, &Tree::minValue);
 #endif // PREFORMANCE_CHECK
 
 }
