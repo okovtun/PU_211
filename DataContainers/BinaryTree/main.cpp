@@ -174,10 +174,10 @@ public:
 	}
 };
 
-void mesure(const char description[], const Tree& tree, int (*member_function)())
+void mesure(const char description[], const Tree& tree, int (Tree::*member_function)()const)
 {
 	clock_t t_start = clock();
-	cout << description << ":\t" << (*member_function)() << tab;
+	cout << description /*<< ":\t" */<< (tree.*member_function)() << tab;
 	clock_t t_end = clock();
 	cout << double(t_end - t_start) / CLOCKS_PER_SEC << " секунд." << endl;
 }
@@ -272,6 +272,10 @@ void main()
 	cout << double(t_end - t_start) / CLOCKS_PER_SEC << " сек." << endl;*/
 
 	mesure("Минимальное значение в дереве: ", tree, &Tree::minValue);
+	mesure("Максимальное значение в дереве:", tree, &Tree::maxValue);
+	mesure("Сумма элементов дерева:\t\t", tree, &Tree::sum);
+	//mesure("Среднее-арифметическое элементов массива:", tree, &Tree::avg);
+	mesure("Глубина дерева:\t\t", tree, &Tree::depth);
 #endif // PREFORMANCE_CHECK
 
 }
