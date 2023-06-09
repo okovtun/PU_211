@@ -62,6 +62,10 @@ public:
 	{
 		insert(Data, Root);
 	}
+	void erase(int Data)
+	{
+		erase(Data, Root);
+	}
 	int count()const
 	{
 		return count(Root);
@@ -91,6 +95,16 @@ public:
 		print(Root);
 		cout << endl;
 	}
+	void print(int depth)const
+	{
+		print(Root, depth);
+		cout << endl;
+	}
+	void true_print()const
+	{
+		true_print(Root, depth());
+		cout << endl;
+	}
 
 private:
 	void clear(Element* Root)
@@ -115,7 +129,7 @@ private:
 			else insert(Data, Root->pRight);
 		}
 	}
-	void erase(int Data, Element* Root)
+	void erase(int Data, Element*& Root)
 	{
 		if (Root == nullptr)return;
 		erase(Data, Root->pLeft);
@@ -129,7 +143,16 @@ private:
 			}
 			else
 			{
-
+				if (count(Root->pLeft) > count(Root->pRight))
+				{
+					Root->Data = maxValue(Root->pLeft);
+					erase(maxValue(Root->pLeft), Root->pLeft);
+				}
+				else
+				{
+					Root->Data = minValue(Root->pRight);
+					erase(minValue(Root->pRight), Root->pRight);
+				}
 			}
 		}
 	}
@@ -170,16 +193,32 @@ private:
 			depth(Root->pLeft) > depth(Root->pRight) ?
 			depth(Root->pLeft) + 1 :
 			depth(Root->pRight) + 1;*/
-		//if (depth(Root->pLeft) > depth(Root->pRight))return depth(Root->pLeft) + 1;
-		//else return depth(Root->pRight) + 1;
+			//if (depth(Root->pLeft) > depth(Root->pRight))return depth(Root->pLeft) + 1;
+			//else return depth(Root->pRight) + 1;
 	}
-	
+
 	void print(Element* Root)const
 	{
 		if (Root == nullptr)return;
 		print(Root->pLeft);
 		cout << Root->Data << "\t";
 		print(Root->pRight);
+	}
+	void print(Element* Root, int depth)const
+	{
+		if (Root == nullptr)return;
+		print(Root->pLeft, depth - 1);
+		if (depth == 0)cout << Root->Data << tab;
+		print(Root->pRight, depth - 1);
+	}
+	void true_print(Element* Root, int depth)const
+	{
+		if (depth == -1)return;
+		true_print(Root, depth - 1);
+		print(Root, depth);
+		cout << endl;
+		cout << endl;
+		cout << endl;
 	}
 };
 
@@ -208,7 +247,7 @@ public:
 };
 
 template<typename T>
-void measure(const char description[], const Tree& tree, T (Tree::*member_function)()const)
+void measure(const char description[], const Tree& tree, T(Tree::*member_function)()const)
 {
 	cout << description;
 	clock_t t_start = clock();
@@ -242,6 +281,11 @@ void main()
 	cout << "Сумма элементов в дереве: " << tree.sum() << endl;
 	cout << "Глубина дерева: " << tree.depth() << endl;
 
+	int value;
+	cout << "Введите удаляемое значение: "; cin >> value;
+	tree.erase(value);
+	tree.print();
+
 	UniqueTree u_tree;
 	for (int i = 0; i < n; i++)
 	{
@@ -257,10 +301,18 @@ void main()
 #endif // BASE_CHECK
 
 #ifdef DEPTH_CHECK
-	Tree tree = { 50, 25, 75, 16, 32, 64, 80, 17, 85, 91 };
-	tree.~Tree();
+	Tree tree = { 50, 25, 75, 16, 32, 64, 80 };
+	//tree.~Tree();
 	tree.print();
 	cout << "Глубина дерева: " << tree.depth() << endl;
+
+	//tree.print(3);
+	tree.true_print();
+
+	//int value;
+	//cout << "Введите удаляемое значение: "; cin >> value;
+	//tree.erase(value);
+	//tree.print();
 #endif // DEPTH_CHECK
 
 #ifdef PREFORMANCE_CHECK
