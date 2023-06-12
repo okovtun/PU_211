@@ -90,6 +90,10 @@ public:
 	{
 		return depth(Root);
 	}
+	void balance()
+	{
+		balance(Root);
+	}
 	void print()const
 	{
 		print(Root);
@@ -97,7 +101,7 @@ public:
 	}
 	void print(int depth)const
 	{
-		print(Root, depth);
+		print(Root, depth, 50);
 		cout << endl;
 	}
 	void true_print()const
@@ -196,6 +200,32 @@ private:
 			//if (depth(Root->pLeft) > depth(Root->pRight))return depth(Root->pLeft) + 1;
 			//else return depth(Root->pRight) + 1;
 	}
+	void balance(Element* Root)
+	{
+		if (Root == nullptr)return;
+		if (abs(count(Root->pLeft) - count(Root->pRight)) < 2)return;
+		//Функция abs() возвращает абсолютное значение числа: 
+		//	 2 - 5 = -3;
+		//abs(2-5) = 3;
+
+		if (count(Root->pLeft) < count(Root->pRight))
+		{
+			if (Root->pLeft)insert(Root->Data, Root->pLeft);
+			else Root->pLeft = new Element(Root->Data);
+			Root->Data = minValue(Root->pRight);
+			erase(minValue(Root->pRight), Root->pRight);
+		}
+		else if (count(Root->pLeft) > count(Root->pRight))
+		{
+			if (Root->pRight)insert(Root->Data, Root->pRight);
+			else Root->pRight = new Element(Root->Data);
+			Root->Data = maxValue(Root->pLeft);
+			erase(maxValue(Root->pLeft), Root->pLeft);
+		}
+		balance(Root->pLeft);
+		balance(Root->pRight);
+		balance(Root);
+	}
 
 	void print(Element* Root)const
 	{
@@ -204,18 +234,33 @@ private:
 		cout << Root->Data << "\t";
 		print(Root->pRight);
 	}
-	void print(Element* Root, int depth)const
+	void print(Element* Root, int depth, int width)const
 	{
-		if (Root == nullptr)return;
-		print(Root->pLeft, depth - 1);
-		if (depth == 0)cout << Root->Data << tab;
-		print(Root->pRight, depth - 1);
+		if (Root == nullptr)
+		{
+			//cout.width(width/2);
+			//cout << "";
+			return;
+		}
+		width /= 2;
+		print(Root->pLeft, depth - 1, width);
+		if (depth == 0)
+		{
+			cout.width(width);
+			cout << Root->Data << tab;
+		}
+		cout.width(width);
+		cout << " ";
+		//cout << tab;
+		print(Root->pRight, depth - 1, width);
 	}
 	void true_print(Element* Root, int depth)const
 	{
 		if (depth == -1)return;
 		true_print(Root, depth - 1);
-		print(Root, depth);
+		print(Root, depth, 50);
+		cout << endl;
+		cout << endl;
 		cout << endl;
 		cout << endl;
 		cout << endl;
@@ -257,7 +302,8 @@ void measure(const char description[], const Tree& tree, T(Tree::*member_functio
 }
 
 //#define BASE_CHECK
-#define DEPTH_CHECK
+//#define DEPTH_CHECK
+#define BALANCE_CHECK
 //#define PREFORMANCE_CHECK
 
 void main()
@@ -301,7 +347,7 @@ void main()
 #endif // BASE_CHECK
 
 #ifdef DEPTH_CHECK
-	Tree tree = { 50, 25, 75, 16, 32, 64, 80 };
+	Tree tree = { 50, 25, 75, 16, 32, 64, 17, 80, 68 };
 	//tree.~Tree();
 	tree.print();
 	cout << "Глубина дерева: " << tree.depth() << endl;
@@ -314,6 +360,15 @@ void main()
 	//tree.erase(value);
 	//tree.print();
 #endif // DEPTH_CHECK
+
+#ifdef BALANCE_CHECK
+	//Tree tree = { 3, 5, 8, 13, 21, 34, 55 };
+	Tree tree = { 55, 34, 21, 13, 8, 5, 3 };
+	tree.true_print();
+	tree.balance();
+	tree.true_print();
+#endif // BALANCE_CHECK
+
 
 #ifdef PREFORMANCE_CHECK
 	clock_t t_start, t_end;
