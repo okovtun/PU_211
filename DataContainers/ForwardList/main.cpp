@@ -30,6 +30,7 @@ public:
 	}
 	friend class ForwardList;
 	friend class Iterator;
+	friend class Stack;
 };
 
 int Element::count = 0;	//Статическую переменную можно проинициализировать только за пределами класса.
@@ -79,6 +80,7 @@ public:
 
 class ForwardList
 {
+protected:
 	Element* Head;	//Голова - это указатель на начальный элемент списка,
 	//так же как в массиве, имя массива содержит адрес нулевого элмента,
 	//Голова списа содержит адрес начального элемента.
@@ -260,11 +262,33 @@ ForwardList operator+(const ForwardList& left, const ForwardList& right)
 	return cat;
 }
 
+class Stack :private ForwardList
+{
+public:
+	void push(int Data)
+	{
+		ForwardList::push_front(Data);
+	}
+	void pop()
+	{
+		ForwardList::pop_front();
+	}
+	int top()const
+	{
+		return Head->Data;
+	}
+	int depth()const
+	{
+		return ForwardList::size;
+	}
+};
+
 //#define BASE_CHECK
 //#define COPY_CHECK
 //#define PREFORMANCE_CHECK
 //#define RANGE_BASED_FOR_ARRAY
 //#define ITERATORS_CHECK
+//#define OPERATOR_PLUS_CHECK
 
 void main()
 {
@@ -364,6 +388,7 @@ void main()
 	cout << endl;
 #endif // ITERATORS_CHECK
 
+#ifdef OPERATOR_PLUS_CHECK
 	ForwardList list1 = { 3,5,8,13,21 };
 	for (int i : list1)cout << i << tab; cout << endl;
 
@@ -374,4 +399,17 @@ void main()
 	ForwardList list3;
 	list3 = list1 + list2;	//MoveAssignment
 	for (int i : list3)cout << i << tab; cout << endl;
+#endif // OPERATOR_PLUS_CHECK
+
+	Stack stack;
+	stack.push(3);
+	stack.push(5);
+	stack.push(8);
+	stack.push(13);
+
+	while (stack.depth())
+	{
+		cout << stack.top() << endl;
+		stack.pop();
+	}
 }
