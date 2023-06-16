@@ -2,6 +2,7 @@
 #include<array>
 #include<stack>
 #include<vector>
+#include<deque>
 using std::cin;
 using std::cout;
 using std::endl;
@@ -13,7 +14,8 @@ template<typename T>void vector_properties(const std::vector<T>& vec);
 
 //#define STL_ARRAY
 //#define STL_STACK
-#define STL_VECTOR
+//#define STL_VECTOR
+#define STL_DEQUE
 
 void main()
 {
@@ -52,11 +54,20 @@ void main()
 	//insert();
 	//erase();
 	std::vector<int> vec = { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34 };
-	for (int i = 0; i < vec.size(); i++)
+	try
 	{
-		cout << vec.operator[](i) << tab;
+		for (int i = 0; i < vec.size() * 2; i++)
+		{
+			//cout << vec.operator[](i) << tab;
+			//cout << vec[i] << tab;
+			cout << vec.at(i) << tab;
+		}
+		cout << endl;
 	}
-	cout << endl;
+	catch (const std::exception& e)
+	{
+		std::cerr << e.what() << endl;
+	}
 	vector_properties(vec);
 	vec.push_back(55);
 	vector_properties(vec);
@@ -69,12 +80,50 @@ void main()
 	}
 	cout << endl;
 	vector_properties(vec);
-	
+
 	cout << delimiter << endl;
 	cout << std::vector<int>().max_size() << endl;
 	cout << std::vector<double>().max_size() << endl;
+
+	/*int index;
+	int value;
+	do
+	{
+		cout << "Введите индекс добавляемого элемента: "; cin >> index;
+		cout << "Введите значение добавляемого элемента: "; cin >> value;
+		if (index > vec.size())cout << "Очень большой индекс" << endl;
+	} while (index>vec.size());
+	vec.insert(vec.begin() + index, 3, value);
+	for (int i : vec)cout << i << tab; cout << endl;
+	*/
+	vec.insert(vec.begin() + 3, { 1024, 2048, 3072 });
+	for (int i : vec)cout << i << tab; cout << endl;
+	vec.erase(vec.begin() + 3, vec.begin() + 6);
+	for (int i : vec)cout << i << tab; cout << endl;
+	cout << vec.front() << endl;
+	cout << vec.back() << endl;
 #endif // STL_VECTOR
 
+#ifdef STL_DEQUE
+	//deque (Double-Ended queue - Двунаправленная очередь) - это контейнер, который хранит данные в виде
+	//списка динамических массивов, следоательно, относительно быстро добавляет значения как в конец, 
+	//так и в начало.
+	std::deque<int> deque = { 3, 5, 8, 13, 21 };
+	for (int i = 0; i < deque.size(); i++)
+	{
+		cout << deque[i] << tab;
+	}
+	cout << endl;
+	deque.push_back(34);
+	deque.push_back(55);
+	deque.push_back(89);
+
+	deque.push_front(2);
+	deque.push_front(1);
+	deque.push_front(1);
+	deque.push_front(0);
+	for (int i : deque)cout << i << tab; cout << endl;
+#endif // STL_DEQUE
 
 }
 

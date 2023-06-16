@@ -86,6 +86,10 @@ protected:
 	//Голова списа содержит адрес начального элемента.
 	unsigned int size;	//Количество элементов списка
 public:
+	int get_size()const
+	{
+		return size;
+	}
 	Iterator begin()const
 	{
 		return Head;
@@ -99,6 +103,13 @@ public:
 		Head = nullptr;	//Когда список пуст, его Голова указывает на 0
 		size = 0;
 		cout << "LConstructor:\t" << this << endl;
+	}
+	ForwardList(int size):ForwardList()
+	{
+		while (size--)
+		{
+			push_front(int());
+		}
 	}
 	ForwardList(const initializer_list<int>& il) :ForwardList()
 	{
@@ -154,6 +165,15 @@ public:
 		other.size = 0;
 		cout << "MoveAssignment:\t" << this << endl;
 		return *this;
+	}
+	int& operator[](int index)
+	{
+		if (index >= size)throw std::out_of_range("Out of ForwardList range");
+		//if (index >= size)throw std::exception("Out of range");
+		//if (index >= size)throw "Out of range";
+		Element* Temp = Head;
+		for (int i = 0; i < index; i++)Temp = Temp->pNext;
+		return Temp->Data;
 	}
 
 	//				Adding elements:
@@ -289,6 +309,7 @@ public:
 //#define RANGE_BASED_FOR_ARRAY
 //#define ITERATORS_CHECK
 //#define OPERATOR_PLUS_CHECK
+//#define STACK
 
 void main()
 {
@@ -401,6 +422,7 @@ void main()
 	for (int i : list3)cout << i << tab; cout << endl;
 #endif // OPERATOR_PLUS_CHECK
 
+#ifdef STACK
 	Stack stack;
 	stack.push(3);
 	stack.push(5);
@@ -412,4 +434,29 @@ void main()
 		cout << stack.top() << endl;
 		stack.pop();
 	}
+#endif // STACK
+
+	ForwardList list(5);
+	try
+	{
+		for (int i = 0; i < list.get_size(); i++)
+		{
+			list[i] = rand() % 100;
+		}
+		for (int i = 0; i < list.get_size() * 2; i++)
+		{
+			cout << list[i] << tab;
+		}
+		cout << endl;
+		//for (int i : list)cout << i << tab; cout << endl;
+	}
+	catch (const char* e)
+	{
+		std::cerr << "Error: " << e << endl;
+	}
+	catch (const std::exception& e)
+	{
+		std::cerr << "Error: " << e.what() << endl;
+	}
+
 }
