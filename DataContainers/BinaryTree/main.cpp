@@ -303,8 +303,8 @@ void measure(const char description[], const Tree& tree, T(Tree::*member_functio
 
 //#define BASE_CHECK
 //#define DEPTH_CHECK
-#define BALANCE_CHECK
-//#define PREFORMANCE_CHECK
+//#define BALANCE_CHECK
+#define PREFORMANCE_CHECK
 
 void main()
 {

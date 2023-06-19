@@ -310,6 +310,8 @@ public:
 //#define ITERATORS_CHECK
 //#define OPERATOR_PLUS_CHECK
 //#define STACK
+//#define EXCEPTIONS
+#define PREFORMANCE_TEST_2
 
 void main()
 {
@@ -436,6 +438,7 @@ void main()
 	}
 #endif // STACK
 
+#ifdef EXCEPTIONS
 	ForwardList list(5);
 	try
 	{
@@ -458,5 +461,15 @@ void main()
 	{
 		std::cerr << "Error: " << e.what() << endl;
 	}
+#endif // EXCEPTIONS
 
+	ForwardList list(75000);
+	cout << "List created, loading data...\n";
+	int sum = 0;
+	for (int i = 0; i < list.get_size(); i++)
+	{
+		//list[i] = rand() % 100;
+		sum += list[i];
+	}
+	cout << "Data loaded" << endl;
 }
