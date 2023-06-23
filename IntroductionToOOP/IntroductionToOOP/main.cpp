@@ -73,10 +73,11 @@ public:
 	}
 
 	//				Methods:
-	double distance(const Point& other)
+	double distance(const Point& other)const
 	{
 		//this  - эта точка
 		//other - другая точка (указанная точка)
+		this->x *= 10;
 		double x_distance = this->x - other.x;
 		double y_distance = this->y - other.y;
 		double distance = sqrt(x_distance*x_distance + y_distance * y_distance);
@@ -96,7 +97,7 @@ double distance(const Point& A, const Point& B)
 }
 
 //#define STRUCT_POINT
-//#define DISTANCE_CHECK
+#define DISTANCE_CHECK
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_OPERATOR
 
