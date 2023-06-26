@@ -72,6 +72,10 @@ public:
 		else this->id = 0;*/
 		this->id = violation.find(id) == violation.end() ? 0 : id;
 	}
+	void set_timestamp(time_t time)
+	{
+		datetime = *localtime(&time);
+	}
 	tm* init_datetime()
 	{
 		const time_t datetime = mktime(&this->datetime);
@@ -137,6 +141,53 @@ std::ofstream& operator<<(std::ofstream& ofs, const Crime& obj)
 	return ofs;
 }
 
+std::istream& operator>>(std::istream& is, Crime& obj)
+{
+	int id;
+	std::string date;
+	std::string time;
+	std::string place;
+	cout << "Введите нарушение"; is >> id;
+	is.ignore();
+
+	cout << R"(
+		0 - Ввести время вручную;\n
+		1 - Использовать текущее время;
+	)";
+	bool current_time;
+	cin >> current_time;
+	if (current_time)
+	{
+		obj.set_timestamp(std::time(NULL));
+		is.ignore();
+	}
+	else
+	{
+		std::getline(is, date, ' ');
+		std::getline(is, time, ' ');
+		obj.set_datetime(date + " " + time);
+	}
+	cout << "Введите место проишествия: ";
+	SetConsoleCP(1251);
+	std::getline(is, place);
+	SetConsoleCP(866);
+
+	obj.set_id(id);
+	obj.set_place(place);
+	return is;
+}
+std::ifstream& operator>>(std::ifstream& ifs, Crime& obj)
+{
+	int id;
+	time_t timestamp;
+	std::string place;
+	ifs >> id >> timestamp;
+	std::getline(ifs, place, ',');
+	obj.set_id(id);
+	obj.set_timestamp(timestamp);
+	return ifs;
+}
+
 void print(const std::map<std::string, std::list<Crime>>& base);
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename);
 void load(std::map<std::string, std::list<Crime>>& base, const std::string& filename);
@@ -152,7 +203,7 @@ void main()
 	Crime crime("aa777bb", 1, "2023.06.21 12:05", "ул. Ленина");
 	cout << crime << endl;*/
 
-	std::map<std::string, std::list<Crime>> base =
+	std::map<std::string, std::list<Crime>> base/* =
 	{
 		{
 			"aa777bb", std::list<Crime>
@@ -185,25 +236,34 @@ void main()
 				Crime(8, "2023.06.22 11:22", "ул. Ворошилова")
 			}
 		},
-	};
+	}*/;
 
-	/*char key;
+	char key;
 	do
 	{
+		system("CLS");
 		cout << "1. Распечатка базы данных;" << endl;
 		cout << "2. Распечатка данных по заданному номеру;" << endl;
 		cout << "3. Распечатка данных по диапазону номеров;" << endl;
 		cout << "4. Сохранение базы в файл;" << endl;
 		cout << "5. Загрузка базы из файла;" << endl;
+		cout << "6. Добавление записи в базу;" << endl;
 		cout << "0. Выход из программы;" << endl;
 		key = _getch();
 		switch (key)
 		{
 		case '1':	print(base);	break;
-		case '4':
+		case '4':	save(base, "base.txt"); break;
+		case '5':	load(base, "base.txt"); break;
+		case '6':
+			for (std::pair<int, std::string> i : violation)cout << "\t" << i.first << "\t" << i.second << endl;
+			std::string licence_plate;
+			Crime crime(0, "2000.01.01 00:00", "Somewere");
+			cout << "Введите номер автомобиля:"; cin >> licence_plate;
+			cout << "Введите правонарушение:  "; cin >> crime;
+			base[licence_plate].push_back(crime);
 		}
-	} while (key != 27 && key != '0');*/
-	save(base, "base.txt");
+	} while (key != 27 && key != '0');
 }
 
 void print(const std::map<std::string, std::list<Crime>>& base)
@@ -220,6 +280,7 @@ void print(const std::map<std::string, std::list<Crime>>& base)
 		}
 		cout << delimiter << endl;
 	}
+	system("PAUSE");
 }
 void save(const std::map<std::string, std::list<Crime>>& base, const std::string& filename)
 {
@@ -245,7 +306,32 @@ void load(std::map<std::string, std::list<Crime>>& base, const std::string& file
 		//TODO: read file
 		while (!fin.eof())
 		{
+			std::string licence_plate;
+			std::string all_crimes;
+			std::getline(fin, licence_plate, ':');
+			fin.ignore();	//пропускаем двоеточие
 
+			std::getline(fin, all_crimes);
+			int all_crimes_size = all_crimes.size() + 1;
+			char* sz_all_crimes = new char[all_crimes_size] {};
+			std::strcpy(sz_all_crimes, all_crimes.c_str());
+			Crime crime(0, "2000.01.01 00:00", "");
+			for (char* pch = strtok(sz_all_crimes, ","); pch; pch = strtok(NULL, ","))
+			{
+				//elements[n++] = pch;
+				if (strcmp(pch, " ") == 0)continue;
+				time_t timestamp = std::stoi(pch);
+				while (pch[0] == ' ')
+					for (int i = 0; pch[i]; i++)pch[i] = pch[i + 1];
+				pch = strchr(pch, ' ') + 1;
+				int id = std::stoi(pch);
+				pch = strchr(pch, ' ') + 1;
+				crime.set_id(id);
+				crime.set_timestamp(timestamp);
+				crime.set_place(pch);
+				base[licence_plate].push_back(crime);
+			}
+			delete[] sz_all_crimes;
 		}
 		fin.close();
 	}
@@ -253,4 +339,6 @@ void load(std::map<std::string, std::list<Crime>>& base, const std::string& file
 	{
 		std::cerr << "Error: file not found" << endl;
 	}
+	cout << "База агружена" << endl;
+	system("PAUSE");
 }

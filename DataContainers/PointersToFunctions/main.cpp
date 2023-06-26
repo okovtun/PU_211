@@ -16,7 +16,8 @@ void main()
 	cout << main << endl;
 	hello;
 
-	void (*p_hello)() = hello;
+	void(*p_hello)();// = hello;
+	p_hello = hello;
 	p_hello();
 
 	////////////////////////////////////////////////////
