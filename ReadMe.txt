@@ -5,6 +5,10 @@ Book:
 https://drive.google.com/drive/folders/1PtH0LBlm7PpmBcaE6mwBnkftAcEui32y?usp=sharing
 
 TODO:
+https://www.codewars.com/kata/578b4f9b7c77f535fc00002f
+https://www.codewars.com/kata/578df8f3deaed98fcf0001e9
+
+DONE:
 Загрузить базу из файла (функция void load(...)), и вывести ее на экран;
 
 DONE:
